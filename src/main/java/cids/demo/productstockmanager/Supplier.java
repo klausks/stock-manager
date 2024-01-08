@@ -1,0 +1,32 @@
+package cids.demo.productstockmanager;
+
+import jakarta.persistence.*;
+
+@Entity
+public class Supplier {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private String name;
+
+    @Enumerated(EnumType.ORDINAL)
+    private LegalType legalType;
+
+    // CPF when the legal type is a natural person and CNPJ when it's a legal entity.
+    private String registrationNumber;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    // DO NOT CHANGE THE ORDER OF THE ENUM VALUES
+    private enum LegalType {
+        NATURAL_PERSON, LEGAL_ENTITY
+    }
+}
