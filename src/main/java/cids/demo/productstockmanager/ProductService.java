@@ -24,12 +24,15 @@ public class ProductService {
     public List<Product> getProductsBySupplier(String supplierName) {
         return productRepository.findBySupplier(supplierName);
     }
-
-    public Product addProduct(String name, int quantity, Supplier supplier) {
-        Product toBeAdded = new Product(name, quantity, supplier);
-        productRepository.add(new Product(name, quantity, supplier));
+    /*
+    public Product addProduct(String name, int quantity, Long supplierId) {
+        Supplier su
+        Product toBeAdded = new Product(name, quantity, supplierId);
+        productRepository.add(new Product(name, quantity, supplierId));
         return toBeAdded;
     }
+     */
+
 
     public void updateProduct(Product product) {
         productRepository.updateById(product.getId(), product);
