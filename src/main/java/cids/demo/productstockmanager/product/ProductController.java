@@ -7,7 +7,7 @@ import java.util.List;
 @RestController
 @RequestMapping("products")
 public class ProductController {
-    private ProductService productService;
+    private final ProductService productService;
 
     public ProductController(ProductService productService) {
         this.productService = productService;
@@ -33,12 +33,14 @@ public class ProductController {
         productService.deleteProduct(id);
     }
 
-//    @PostMapping
-//    public Product addProduct(@RequestBody ProductDto productInfo) {
-//        return productService.addProduct(productInfo.name(), productInfo.quantity(), productInfo.supplierId());
-//    }
+    @PostMapping
+    public Product addProduct(@RequestBody ProductDto productInfo) throws SupplierNotFoundException {
+        return productService.addProduct(productInfo.name(), productInfo.quantity(), productInfo.supplierId());
+    }
 
-//    @PostMapping("/{id}")
-//    public Product updateProduct(@PathVariable Long id, @RequestBody )
+    @PostMapping("/{id}")
+    public void updateProduct(@PathVariable Long id, @RequestBody ProductDto productInfo) {
+        productService.updateProduct(id, productInfo);
+    }
 
 }

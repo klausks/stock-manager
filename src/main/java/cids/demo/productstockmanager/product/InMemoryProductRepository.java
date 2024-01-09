@@ -3,9 +3,11 @@ package cids.demo.productstockmanager.product;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Component
 public class InMemoryProductRepository implements ProductRepository {
+    private static AtomicLong ID_COUNTER = new AtomicLong(1L);
     private final Map<Long, Product> products = new HashMap<>();
 
     @Override
@@ -30,14 +32,15 @@ public class InMemoryProductRepository implements ProductRepository {
     }
 
     @Override
-    public void add(Product product) {
+    public Product add(Product product) {
+        product.setId(ID_COUNTER.getAndIncrement());
         products.putIfAbsent(product.getId(), product);
+        return product;
     }
 
     @Override
     public void updateById(Long id, Product product) {
         products.replace(id, product);
-        products.get(id);
     }
 
     @Override

@@ -6,7 +6,7 @@ public interface ProductRepository {
     List<Product> findAll();
     List<Product> findBySupplier(String supplierName);
     Product findById(Long id);
-    void add(Product product);
+    Product add(Product product);
     void updateById(Long id, Product product);
     void deleteById(Long id);
 }
