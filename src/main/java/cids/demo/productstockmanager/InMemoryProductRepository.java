@@ -6,8 +6,8 @@ import java.util.*;
 
 @Component
 public class InMemoryProductRepository implements ProductRepository {
-    Map<Long, Product> products;
-    Map<Long, Supplier> suppliers;
+    private Map<Long, Product> products;
+    private Map<Long, Supplier> suppliers;
 
     @Override
     public List<Product> findAll() {
@@ -36,9 +36,9 @@ public class InMemoryProductRepository implements ProductRepository {
     }
 
     @Override
-    public Product updateById(Long id, Product product) {
+    public void updateById(Long id, Product product) {
         products.replace(id, product);
-        return products.get(id);
+        products.get(id);
     }
 
     @Override
