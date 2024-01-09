@@ -1,4 +1,4 @@
-package cids.demo.productstockmanager;
+package cids.demo.productstockmanager.product;
 
 import java.util.List;
 

@@ -1,5 +1,6 @@
-package cids.demo.productstockmanager;
+package cids.demo.productstockmanager.product;
 
+import cids.demo.productstockmanager.supplier.Supplier;
 import jakarta.persistence.*;
 
 @Entity
