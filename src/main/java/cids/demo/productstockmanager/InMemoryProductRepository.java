@@ -6,8 +6,7 @@ import java.util.*;
 
 @Component
 public class InMemoryProductRepository implements ProductRepository {
-    private Map<Long, Product> products;
-    private Map<Long, Supplier> suppliers;
+    private final Map<Long, Product> products = new HashMap<>();
 
     @Override
     public List<Product> findAll() {

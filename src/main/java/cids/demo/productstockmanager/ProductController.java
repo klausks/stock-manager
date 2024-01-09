@@ -33,10 +33,10 @@ public class ProductController {
         productService.deleteProduct(id);
     }
 
-//    @PostMapping
-//    public Product addProduct(@RequestBody ProductDto productInfo) {
-//        return productService.addProduct(productInfo.name(), productInfo.quantity(), productInfo.supplierId());
-//    }
+    @PostMapping
+    public Product addProduct(@RequestBody ProductDto productInfo) {
+        return productService.addProduct(productInfo.name(), productInfo.quantity(), productInfo.supplierId());
+    }
 
 //    @PostMapping("/{id}")
 //    public Product updateProduct(@PathVariable Long id, @RequestBody )
