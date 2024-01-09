@@ -1,7 +1,10 @@
 package cids.demo.productstockmanager;
 
+import org.springframework.stereotype.Component;
+
 import java.util.*;
 
+@Component
 public class InMemoryProductRepository implements ProductRepository {
     Map<Long, Product> products;
     Map<Long, Supplier> suppliers;
