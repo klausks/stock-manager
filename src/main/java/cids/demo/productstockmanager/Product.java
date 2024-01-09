@@ -11,13 +11,21 @@ public class Product {
     private String name;
 
     // TODO: Validation (max = 9999)
-    @Column
     private int quantity;
 
     @OneToOne
     @JoinColumn
     private Supplier supplier;
 
+    public Product(String name, int quantity, Supplier supplier) {
+        this.name = name;
+        this.quantity = quantity;
+        this.supplier = supplier;
+    }
+
+    public Product() {
+
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -25,5 +33,17 @@ public class Product {
 
     public Long getId() {
         return id;
+    }
+
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public String getName() {
+        return name;
     }
 }

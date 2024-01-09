@@ -25,6 +25,18 @@ public class Supplier {
         return id;
     }
 
+    public String getRegistrationNumber() {
+        return registrationNumber;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public LegalType getLegalType() {
+        return legalType;
+    }
+
     // DO NOT CHANGE THE ORDER OF THE ENUM VALUES
     private enum LegalType {
         NATURAL_PERSON, LEGAL_ENTITY
