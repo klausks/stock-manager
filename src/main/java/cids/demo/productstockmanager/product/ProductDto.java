@@ -1,4 +1,10 @@
 package cids.demo.productstockmanager.product;
 
-public record ProductDto(Long id, String name, int quantity, Long supplierId) {
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
+
+public record ProductDto(
+        @NotNull String name,
+        @Max(9999) int quantity,
+        Long supplierId) {
 }
