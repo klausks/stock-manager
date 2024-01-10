@@ -33,12 +33,12 @@ public class ProductController {
         productService.deleteProduct(id);
     }
 
-    @PostMapping
+    @PutMapping
     public Product addProduct(@RequestBody ProductDto productInfo) throws SupplierNotFoundException {
         return productService.addProduct(productInfo.name(), productInfo.quantity(), productInfo.supplierId());
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public void updateProduct(@PathVariable Long id, @RequestBody ProductDto productInfo) {
         productService.updateProduct(id, productInfo);
     }

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/suppliers")
 public class SupplierController {
     private final SupplierService supplierService;
 
@@ -27,13 +28,13 @@ public class SupplierController {
         supplierService.deleteSupplier(id);
     }
 
-    @PostMapping
+    @PutMapping
     public Supplier addSupplier(@RequestBody SupplierDto supplierInfo) {
         return supplierService.addSupplier(supplierInfo.name(), supplierInfo.legalType(), supplierInfo.registrationNumber());
     }
 
-    @PostMapping
-    public void updateSupplier(@RequestBody SupplierDto supplierInfo) {
+    @PutMapping("/{id}")
+    public void updateSupplier(@PathVariable Long id, @RequestBody SupplierDto supplierInfo) {
         Supplier newSupplier = new Supplier(supplierInfo.name(), supplierInfo.legalType(), supplierInfo.registrationNumber());
         supplierService.updateSupplier(newSupplier);
     }
