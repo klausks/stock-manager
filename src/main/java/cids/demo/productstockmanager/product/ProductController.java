@@ -28,12 +28,12 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public Product getProduct(@PathVariable Long id) {
-        return productService.getProduct(id);
+        return productService.getProduct(id).get();
     }
 
     @GetMapping("/supplier/{name}")
-    public List<Product> getProducts(@PathVariable String name) {
-        return productService.getProductsBySupplier(name);
+    public List<Product> getProducts(@PathVariable Long id) {
+        return productService.getProductsBySupplier(id);
     }
 
     @DeleteMapping("/{id}")

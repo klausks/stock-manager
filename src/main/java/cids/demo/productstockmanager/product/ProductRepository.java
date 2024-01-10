@@ -1,12 +1,9 @@
 package cids.demo.productstockmanager.product;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import java.util.List;
 
-public interface ProductRepository {
-    List<Product> findAll();
-    List<Product> findBySupplier(String supplierName);
-    Product findById(Long id);
-    Product add(Product product);
-    void updateById(Long id, Product product);
-    void deleteById(Long id);
+public interface ProductRepository extends JpaRepository<Product, Long> {
+    List<Product> findBySupplierId(Long supplierId);
 }

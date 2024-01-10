@@ -3,6 +3,7 @@ package cids.demo.productstockmanager.supplier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SupplierService {
@@ -12,7 +13,7 @@ public class SupplierService {
         this.repository = repository;
     }
 
-    public Supplier getSupplier(Long id) {
+    public Optional<Supplier> getSupplier(Long id) {
         return repository.findById(id);
     }
 
@@ -22,12 +23,14 @@ public class SupplierService {
 
     public Supplier addSupplier(String name, Supplier.LegalType legalType, String registrationNumber) {
         Supplier toBeAdded = new Supplier(name, legalType, registrationNumber);
-        repository.add(toBeAdded);
+        repository.save(toBeAdded);
         return toBeAdded;
     }
 
-    public void updateSupplier(Supplier supplier) {
-        repository.updateById(supplier.getId(), supplier);
+    public void updateSupplier(Long id, SupplierDto supplierInfo) {
+        Supplier updatedSupplier = new Supplier(supplierInfo.name(), supplierInfo.legalType(), supplierInfo.registrationNumber());
+        updatedSupplier.setId(id);
+        repository.save(updatedSupplier);
     }
 
     public void deleteSupplier(Long id) {

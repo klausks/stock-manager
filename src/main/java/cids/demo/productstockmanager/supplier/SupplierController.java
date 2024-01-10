@@ -28,7 +28,7 @@ public class SupplierController {
 
     @GetMapping("/{id}")
     public Supplier getSupplier(@PathVariable Long id) {
-        return supplierService.getSupplier(id);
+        return supplierService.getSupplier(id).get();
     }
 
     @DeleteMapping("/{id}")
@@ -43,9 +43,7 @@ public class SupplierController {
 
     @PutMapping("/{id}")
     public void updateSupplier(@Valid @PathVariable Long id, @RequestBody SupplierDto supplierInfo) {
-        Supplier newSupplier = new Supplier(supplierInfo.name(), supplierInfo.legalType(), supplierInfo.registrationNumber());
-        newSupplier.setId(id);
-        supplierService.updateSupplier(newSupplier);
+        supplierService.updateSupplier(id, supplierInfo);
     }
 
     @ExceptionHandler
