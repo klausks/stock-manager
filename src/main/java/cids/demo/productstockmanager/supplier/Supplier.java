@@ -23,6 +23,9 @@ public class Supplier {
         this.registrationNumber = registrationNumber;
     }
 
+    public Supplier() {
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
