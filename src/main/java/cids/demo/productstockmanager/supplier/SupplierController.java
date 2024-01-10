@@ -36,6 +36,7 @@ public class SupplierController {
     @PutMapping("/{id}")
     public void updateSupplier(@PathVariable Long id, @RequestBody SupplierDto supplierInfo) {
         Supplier newSupplier = new Supplier(supplierInfo.name(), supplierInfo.legalType(), supplierInfo.registrationNumber());
+        newSupplier.setId(id);
         supplierService.updateSupplier(newSupplier);
     }
 }
