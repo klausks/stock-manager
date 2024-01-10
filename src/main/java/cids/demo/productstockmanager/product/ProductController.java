@@ -1,5 +1,6 @@
 package cids.demo.productstockmanager.product;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,12 +35,12 @@ public class ProductController {
     }
 
     @PutMapping
-    public Product addProduct(@RequestBody ProductDto productInfo) throws SupplierNotFoundException {
+    public Product addProduct(@Valid @RequestBody ProductDto productInfo) throws SupplierNotFoundException {
         return productService.addProduct(productInfo.name(), productInfo.quantity(), productInfo.supplierId());
     }
 
     @PutMapping("/{id}")
-    public void updateProduct(@PathVariable Long id, @RequestBody ProductDto productInfo) {
+    public void updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDto productInfo) {
         productService.updateProduct(id, productInfo);
     }
 

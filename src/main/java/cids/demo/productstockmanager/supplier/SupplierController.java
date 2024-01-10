@@ -1,5 +1,6 @@
 package cids.demo.productstockmanager.supplier;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,12 +30,12 @@ public class SupplierController {
     }
 
     @PutMapping
-    public Supplier addSupplier(@RequestBody SupplierDto supplierInfo) {
+    public Supplier addSupplier(@Valid @RequestBody SupplierDto supplierInfo) {
         return supplierService.addSupplier(supplierInfo.name(), supplierInfo.legalType(), supplierInfo.registrationNumber());
     }
 
     @PutMapping("/{id}")
-    public void updateSupplier(@PathVariable Long id, @RequestBody SupplierDto supplierInfo) {
+    public void updateSupplier(@Valid @PathVariable Long id, @RequestBody SupplierDto supplierInfo) {
         Supplier newSupplier = new Supplier(supplierInfo.name(), supplierInfo.legalType(), supplierInfo.registrationNumber());
         newSupplier.setId(id);
         supplierService.updateSupplier(newSupplier);
