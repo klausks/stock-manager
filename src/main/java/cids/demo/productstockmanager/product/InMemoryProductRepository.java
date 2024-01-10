@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Component
 public class InMemoryProductRepository implements ProductRepository {
-    private static AtomicLong ID_COUNTER = new AtomicLong(1L);
+    private static final AtomicLong ID_COUNTER = new AtomicLong(1L);
     private final Map<Long, Product> products = new HashMap<>();
 
     @Override
