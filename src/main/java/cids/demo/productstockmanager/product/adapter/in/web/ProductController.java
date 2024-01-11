@@ -6,6 +6,9 @@ import cids.demo.productstockmanager.product.application.port.in.ProductDto;
 import cids.demo.productstockmanager.product.application.service.ProductService;
 import cids.demo.productstockmanager.product.application.SupplierNotFoundException;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.validation.FieldError;
@@ -21,6 +24,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("products")
 public class ProductController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
     private final ProductService productService;
 
     public ProductController(ProductService productService) {
@@ -34,7 +38,11 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public Product getProduct(@PathVariable Long id) {
-        return productService.getProduct(id).get();
+        return productService.getProduct(id).orElseThrow(() -> {
+            String err = String.format("Product with ID '%d' not found.", id);
+            LOGGER.error(err);
+            return new ResourceNotFoundException(err);
+        });
     }
 
     @GetMapping("/supplier/{name}")
