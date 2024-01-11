@@ -1,5 +1,6 @@
 package cids.demo.productstockmanager.product.adapter.in.web;
 
+import cids.demo.productstockmanager.product.application.service.ProductNotFoundException;
 import cids.demo.productstockmanager.product.domain.Product;
 import cids.demo.productstockmanager.product.application.port.in.ProductDto;
 import cids.demo.productstockmanager.product.application.service.ProductService;
@@ -59,8 +60,8 @@ public class ProductController {
     public Product updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDto productInfo) {
         try {
             return productService.updateProduct(id, productInfo);
-        } catch (SupplierNotFoundException ex) {
-            throw new ResponseStatusException(HttpStatus.FAILED_DEPENDENCY, ex.getMessage());
+        } catch (SupplierNotFoundException | ProductNotFoundException ex) {
+            throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, ex.getMessage());
         }
     }
 

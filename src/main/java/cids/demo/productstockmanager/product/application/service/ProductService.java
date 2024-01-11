@@ -45,7 +45,11 @@ public class ProductService {
         return productRepository.save(new Product(name, quantity, supplier));
     }
 
-    public Product updateProduct(Long id, ProductDto productInfo) throws SupplierNotFoundException {
+    public Product updateProduct(Long id, ProductDto productInfo) throws SupplierNotFoundException, ProductNotFoundException {
+        boolean productExists = getProduct(id).isPresent();
+        if (!productExists) {
+            throw new ProductNotFoundException(String.format("Cannot update product with ID %d because it does not exist.", id));
+        }
         Supplier supplier = supplierService.getSupplier(productInfo.supplierId()).orElseThrow(() -> {
             String err = String.format("Cannot update product with supplerId '%d' because no supplier with this ID was found.", productInfo.supplierId());
             LOGGER.error(err);
