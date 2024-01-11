@@ -1,5 +1,8 @@
-package cids.demo.productstockmanager.supplier;
+package cids.demo.productstockmanager.supplier.application.service;
 
+import cids.demo.productstockmanager.supplier.application.port.in.SupplierDto;
+import cids.demo.productstockmanager.supplier.application.port.out.SupplierRepository;
+import cids.demo.productstockmanager.supplier.domain.Supplier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,5 +1,8 @@
-package cids.demo.productstockmanager.supplier;
+package cids.demo.productstockmanager.supplier.adapter.in.web;
 
+import cids.demo.productstockmanager.supplier.application.port.in.SupplierDto;
+import cids.demo.productstockmanager.supplier.application.service.SupplierService;
+import cids.demo.productstockmanager.supplier.domain.Supplier;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;

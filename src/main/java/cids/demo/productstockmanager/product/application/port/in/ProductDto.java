@@ -1,4 +1,4 @@
-package cids.demo.productstockmanager.product;
+package cids.demo.productstockmanager.product.application.port.in;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;

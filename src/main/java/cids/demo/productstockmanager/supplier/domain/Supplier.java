@@ -1,4 +1,4 @@
-package cids.demo.productstockmanager.supplier;
+package cids.demo.productstockmanager.supplier.domain;
 
 import jakarta.persistence.*;
 
