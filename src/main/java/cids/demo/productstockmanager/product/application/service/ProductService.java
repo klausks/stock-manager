@@ -6,6 +6,8 @@ import cids.demo.productstockmanager.product.application.port.out.ProductReposit
 import cids.demo.productstockmanager.product.domain.Product;
 import cids.demo.productstockmanager.supplier.domain.Supplier;
 import cids.demo.productstockmanager.supplier.application.service.SupplierService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +15,7 @@ import java.util.Optional;
 
 @Service
 public class ProductService {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
     private final ProductRepository productRepository;
     private final SupplierService supplierService;
 
@@ -35,21 +37,23 @@ public class ProductService {
     }
 
     public Product addProduct(String name, int quantity, Long supplierId) throws SupplierNotFoundException {
-        Supplier supplier = supplierService.getSupplier(supplierId).get();
-        if (supplier == null) {
-            String errMsg = String.format("Cannot add product with supplerId '%d' because no supplier with this ID was found.", supplierId);
-            throw new SupplierNotFoundException(errMsg);
-        }
+        Supplier supplier = supplierService.getSupplier(supplierId).orElseThrow(() -> {
+            String err = String.format("Cannot add product with supplerId '%d' because no supplier with this ID was found.", supplierId);
+            LOGGER.error(err);
+            return new SupplierNotFoundException(err);
+        });
         return productRepository.save(new Product(name, quantity, supplier));
     }
 
-
-
-    public void updateProduct(Long id, ProductDto productInfo) {
-        Supplier supplier = supplierService.getSupplier(productInfo.supplierId()).get();
+    public Product updateProduct(Long id, ProductDto productInfo) throws SupplierNotFoundException {
+        Supplier supplier = supplierService.getSupplier(productInfo.supplierId()).orElseThrow(() -> {
+            String err = String.format("Cannot update product with supplerId '%d' because no supplier with this ID was found.", productInfo.supplierId());
+            LOGGER.error(err);
+            return new SupplierNotFoundException(err);
+        });
         Product updatedProduct = new Product(productInfo.name(), productInfo.quantity(), supplier);
         updatedProduct.setId(id);
-        productRepository.save(updatedProduct);
+        return productRepository.save(updatedProduct);
     }
 
     public void deleteProduct(Long id) {

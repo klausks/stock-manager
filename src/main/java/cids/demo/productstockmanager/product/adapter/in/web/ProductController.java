@@ -11,6 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Map;
@@ -46,13 +47,21 @@ public class ProductController {
     }
 
     @PutMapping
-    public Product addProduct(@Valid @RequestBody ProductDto productInfo) throws SupplierNotFoundException {
-        return productService.addProduct(productInfo.name(), productInfo.quantity(), productInfo.supplierId());
+    public Product addProduct(@Valid @RequestBody ProductDto productInfo) {
+        try {
+            return productService.addProduct(productInfo.name(), productInfo.quantity(), productInfo.supplierId());
+        } catch (SupplierNotFoundException ex) {
+            throw new ResponseStatusException(HttpStatus.FAILED_DEPENDENCY, ex.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    public void updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDto productInfo) {
-        productService.updateProduct(id, productInfo);
+    public Product updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDto productInfo) {
+        try {
+            return productService.updateProduct(id, productInfo);
+        } catch (SupplierNotFoundException ex) {
+            throw new ResponseStatusException(HttpStatus.FAILED_DEPENDENCY, ex.getMessage());
+        }
     }
 
     @ExceptionHandler
@@ -60,5 +69,4 @@ public class ProductController {
         Map<String, String> fieldErrors = ex.getFieldErrors().stream().collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));
         return ErrorResponse.builder(ex, ProblemDetail.forStatus(HttpStatus.BAD_REQUEST)).property("fieldErrors", fieldErrors).build();
     }
-
 }
