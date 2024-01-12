@@ -22,4 +22,18 @@ public class SupplierStubs {
         supplier.setId(ID_COUNTER.getAndIncrement());
         return supplier;
     }
+
+    public static Supplier withNullName() {
+        var supplier = new Supplier(null, Supplier.LegalType.LEGAL_ENTITY, "123456");
+        supplier.setId(ID_COUNTER.getAndIncrement());
+        return supplier;
+    }
+
+    public static Supplier withNullRegistrationNumber() {
+        var supplier = new Supplier(null, Supplier.LegalType.LEGAL_ENTITY, "123456");
+        supplier.setId(ID_COUNTER.getAndIncrement());
+        return supplier;
+    }
+
+
 }

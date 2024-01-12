@@ -26,7 +26,7 @@ class ProductServiceTest {
     private final ProductService productService = new ProductService(mockProductRepository, mockSupplierService);
 
     @BeforeEach
-    void resetProductIdCounter() {
+    void resetIdCounters() {
         ProductStubs.resetIdCounter();
         SupplierStubs.resetIdCounter();
     }
