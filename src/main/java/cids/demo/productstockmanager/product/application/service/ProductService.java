@@ -1,7 +1,7 @@
 package cids.demo.productstockmanager.product.application.service;
 
 import cids.demo.productstockmanager.product.application.SupplierNotFoundException;
-import cids.demo.productstockmanager.product.application.port.in.ProductDto;
+import cids.demo.productstockmanager.product.application.port.in.*;
 import cids.demo.productstockmanager.product.application.port.out.ProductRepository;
 import cids.demo.productstockmanager.product.domain.Product;
 import cids.demo.productstockmanager.supplier.domain.Supplier;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProductService {
+public class ProductService implements GetProductsUseCase, AddProductUseCase, UpdateProductUseCase, DeleteProductUseCase {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
     private final ProductRepository productRepository;
     private final SupplierService supplierService;

@@ -1,8 +1,8 @@
 package cids.demo.productstockmanager.product.adapter.in.web;
 
+import cids.demo.productstockmanager.product.application.port.in.*;
 import cids.demo.productstockmanager.product.application.service.ProductNotFoundException;
 import cids.demo.productstockmanager.product.domain.Product;
-import cids.demo.productstockmanager.product.application.port.in.ProductDto;
 import cids.demo.productstockmanager.product.application.service.ProductService;
 import cids.demo.productstockmanager.product.application.SupplierNotFoundException;
 import jakarta.validation.Valid;
@@ -25,20 +25,30 @@ import java.util.stream.Collectors;
 @RequestMapping("products")
 public class ProductController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
-    private final ProductService productService;
+    private final AddProductUseCase addProductUseCase;
+    private final GetProductsUseCase getProductsUseCase;
+    private final UpdateProductUseCase updateProductUseCase;
+    private final DeleteProductUseCase deleteProductUseCase;
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
+    public ProductController(ProductService addProductUseCase,
+                             GetProductsUseCase getProductsUseCase,
+                             UpdateProductUseCase updateProductUseCase,
+                             DeleteProductUseCase deleteProductUseCase
+    ) {
+        this.addProductUseCase = addProductUseCase;
+        this.getProductsUseCase = getProductsUseCase;
+        this.updateProductUseCase = updateProductUseCase;
+        this.deleteProductUseCase = deleteProductUseCase;
     }
 
     @GetMapping
     public List<Product> getAllProducts() {
-        return productService.getAllProducts();
+        return getProductsUseCase.getAllProducts();
     }
 
     @GetMapping("/{id}")
     public Product getProduct(@PathVariable Long id) {
-        return productService.getProduct(id).orElseThrow(() -> {
+        return getProductsUseCase.getProduct(id).orElseThrow(() -> {
             String err = String.format("Product with ID '%d' not found.", id);
             LOGGER.error(err);
             return new ResourceNotFoundException(err);
@@ -47,18 +57,18 @@ public class ProductController {
 
     @GetMapping("/supplier/{name}")
     public List<Product> getProducts(@PathVariable Long id) {
-        return productService.getProductsBySupplier(id);
+        return getProductsUseCase.getProductsBySupplier(id);
     }
 
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
+        deleteProductUseCase.deleteProduct(id);
     }
 
     @PutMapping
     public Product addProduct(@Valid @RequestBody ProductDto productInfo) {
         try {
-            return productService.addProduct(productInfo.name(), productInfo.quantity(), productInfo.supplierId());
+            return addProductUseCase.addProduct(productInfo.name(), productInfo.quantity(), productInfo.supplierId());
         } catch (SupplierNotFoundException ex) {
             throw new ResponseStatusException(HttpStatus.FAILED_DEPENDENCY, ex.getMessage());
         }
@@ -67,7 +77,7 @@ public class ProductController {
     @PutMapping("/{id}")
     public Product updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDto productInfo) {
         try {
-            return productService.updateProduct(id, productInfo);
+            return updateProductUseCase.updateProduct(id, productInfo);
         } catch (SupplierNotFoundException | ProductNotFoundException ex) {
             throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, ex.getMessage());
         }

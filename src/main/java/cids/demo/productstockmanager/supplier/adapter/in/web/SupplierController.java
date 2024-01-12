@@ -1,8 +1,7 @@
 package cids.demo.productstockmanager.supplier.adapter.in.web;
 
 import cids.demo.productstockmanager.product.application.SupplierNotFoundException;
-import cids.demo.productstockmanager.supplier.application.port.in.SupplierDto;
-import cids.demo.productstockmanager.supplier.application.service.SupplierService;
+import cids.demo.productstockmanager.supplier.application.port.in.*;
 import cids.demo.productstockmanager.supplier.domain.Supplier;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -24,20 +23,29 @@ import java.util.stream.Collectors;
 @RequestMapping("/suppliers")
 public class SupplierController {
     private static final Logger LOGGER = LoggerFactory.getLogger(SupplierController.class);
-    private final SupplierService supplierService;
+    private final GetSuppliersUseCase getSuppliersUseCase;
+    private final AddSupplierUseCase addSupplierUseCase;
+    private final DeleteSupplierUseCase deleteSupplierUseCase;
+    private final UpdateSupplierUseCase updateSupplierUseCase;
 
-    public SupplierController(SupplierService supplierService) {
-        this.supplierService = supplierService;
+    public SupplierController(GetSuppliersUseCase getSuppliersUseCase,
+                              AddSupplierUseCase addSupplierUseCase,
+                              DeleteSupplierUseCase deleteSupplierUseCase,
+                              UpdateSupplierUseCase updateSupplierUseCase) {
+        this.getSuppliersUseCase = getSuppliersUseCase;
+        this.addSupplierUseCase = addSupplierUseCase;
+        this.deleteSupplierUseCase = deleteSupplierUseCase;
+        this.updateSupplierUseCase = updateSupplierUseCase;
     }
 
     @GetMapping
     public List<Supplier> getAllSuppliers() {
-        return supplierService.getAllSuppliers();
+        return getSuppliersUseCase.getAllSuppliers();
     }
 
     @GetMapping("/{id}")
     public Supplier getSupplier(@PathVariable Long id) {
-        return supplierService.getSupplier(id).orElseThrow(() -> {
+        return getSuppliersUseCase.getSupplier(id).orElseThrow(() -> {
             String err = String.format("Supplier with ID '%d' not found.", id);
             LOGGER.error(err);
             return new ResourceNotFoundException(err);
@@ -46,18 +54,18 @@ public class SupplierController {
 
     @DeleteMapping("/{id}")
     public void deleteSupplier(@PathVariable Long id) {
-        supplierService.deleteSupplier(id);
+        deleteSupplierUseCase.deleteSupplier(id);
     }
 
     @PutMapping
     public Supplier addSupplier(@Valid @RequestBody SupplierDto supplierInfo) {
-        return supplierService.addSupplier(supplierInfo.name(), supplierInfo.legalType(), supplierInfo.registrationNumber());
+        return addSupplierUseCase.addSupplier(supplierInfo.name(), supplierInfo.legalType(), supplierInfo.registrationNumber());
     }
 
     @PutMapping("/{id}")
     public void updateSupplier(@Valid @PathVariable Long id, @RequestBody SupplierDto supplierInfo) {
         try {
-            supplierService.updateSupplier(id, supplierInfo);
+            updateSupplierUseCase.updateSupplier(id, supplierInfo);
         } catch (SupplierNotFoundException ex) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
         }

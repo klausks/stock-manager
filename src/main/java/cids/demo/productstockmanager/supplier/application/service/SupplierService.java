@@ -1,7 +1,7 @@
 package cids.demo.productstockmanager.supplier.application.service;
 
 import cids.demo.productstockmanager.product.application.SupplierNotFoundException;
-import cids.demo.productstockmanager.supplier.application.port.in.SupplierDto;
+import cids.demo.productstockmanager.supplier.application.port.in.*;
 import cids.demo.productstockmanager.supplier.application.port.out.SupplierRepository;
 import cids.demo.productstockmanager.supplier.domain.Supplier;
 import org.slf4j.Logger;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class SupplierService {
+public class SupplierService implements AddSupplierUseCase, UpdateSupplierUseCase, GetSuppliersUseCase, DeleteSupplierUseCase {
     private static final Logger LOGGER = LoggerFactory.getLogger(SupplierService.class);
     private final SupplierRepository repository;
 
