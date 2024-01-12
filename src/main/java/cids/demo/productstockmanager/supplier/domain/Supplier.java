@@ -1,5 +1,6 @@
 package cids.demo.productstockmanager.supplier.domain;
 
+import cids.demo.productstockmanager.product.domain.Product;
 import jakarta.persistence.*;
 
 @Entity
@@ -49,5 +50,16 @@ public class Supplier {
     // DO NOT CHANGE THE ORDER OF THE ENUM VALUES
     public enum LegalType {
         NATURAL_PERSON, LEGAL_ENTITY
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Supplier)) {
+            return false;
+        }
+        return ((Supplier) o).getId().equals(this.getId())
+                && ((Supplier) o).getName().equals(this.getName())
+                && ((Supplier) o).getLegalType().equals(this.getLegalType())
+                && ((Supplier) o).getRegistrationNumber().equals(this.getRegistrationNumber());
     }
 }
