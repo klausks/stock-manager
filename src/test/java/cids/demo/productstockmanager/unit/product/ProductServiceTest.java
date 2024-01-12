@@ -28,6 +28,7 @@ class ProductServiceTest {
     @BeforeEach
     void resetProductIdCounter() {
         ProductStubs.resetIdCounter();
+        SupplierStubs.resetIdCounter();
     }
 
     @Test
@@ -38,10 +39,11 @@ class ProductServiceTest {
 
     @Test
     void givenTwoProductsInRepository_whenGetAllProducts_shouldReturnListWithTwoProducts() {
-        Mockito.when(mockProductRepository.findAll()).thenReturn(ProductStubs.twoProducts());
+        var products = ProductStubs.twoProducts();
+        Mockito.when(mockProductRepository.findAll()).thenReturn(products);
         List<Product> allProducts = productService.getAllProducts();
         assertEquals(2, allProducts.size());
-        assertTrue(allProducts.containsAll(ProductStubs.twoProducts()));
+        assertTrue(allProducts.containsAll(products));
     }
 
     @Test
