@@ -67,4 +67,9 @@ public class Product {
                 && ((Product) o).getSupplier().equals(this.getSupplier())
                 && ((Product) o).getQuantity() == this.getQuantity();
     }
+
+    @Override
+    public String toString() {
+        return String.format("Product [name=%s, quantity=%d, supplier=%s]", name, quantity, supplier);
+    }
 }

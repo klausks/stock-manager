@@ -36,7 +36,7 @@ public class ProductStubs {
     }
 
     public static Product withNullName() {
-        Product product = new Product(null, -1, SupplierStubs.withLegalEntityAsType());
+        Product product = new Product(null, 0, SupplierStubs.withLegalEntityAsType());
         product.setId(ID_COUNTER.getAndIncrement());
         return product;
     }
