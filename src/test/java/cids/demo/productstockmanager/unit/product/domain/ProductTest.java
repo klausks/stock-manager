@@ -14,9 +14,4 @@ public class ProductTest {
         assertThrows(IllegalArgumentException.class, ProductStubs::withNegativeQuantity);
         assertThrows(IllegalArgumentException.class, ProductStubs::withNullName);
     }
-
-    @Test
-    public void shouldAllowNullName() {
-        assertDoesNotThrow(ProductStubs::withNullName);
-    }
 }

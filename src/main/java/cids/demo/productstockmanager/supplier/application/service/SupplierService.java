@@ -30,8 +30,7 @@ public class SupplierService implements AddSupplierUseCase, UpdateSupplierUseCas
 
     public Supplier addSupplier(String name, Supplier.LegalType legalType, String registrationNumber) {
         Supplier toBeAdded = new Supplier(name, legalType, registrationNumber);
-        repository.save(toBeAdded);
-        return toBeAdded;
+        return repository.save(toBeAdded);
     }
 
     public void updateSupplier(Long id, SupplierDto supplierInfo) throws SupplierNotFoundException {
