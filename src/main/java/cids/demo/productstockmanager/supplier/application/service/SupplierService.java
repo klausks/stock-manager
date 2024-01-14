@@ -33,7 +33,7 @@ public class SupplierService implements AddSupplierUseCase, UpdateSupplierUseCas
         return repository.save(toBeAdded);
     }
 
-    public void updateSupplier(Long id, SupplierDto supplierInfo) throws SupplierNotFoundException {
+    public Supplier updateSupplier(Long id, SupplierDto supplierInfo) throws SupplierNotFoundException {
         if (getSupplier(id).isEmpty()) {
             String err = String.format("Cannot update supplier with ID '%d' because no supplier with this ID was found.", id);
             LOGGER.error(err);
@@ -41,7 +41,7 @@ public class SupplierService implements AddSupplierUseCase, UpdateSupplierUseCas
         }
         var updatedSupplier = new Supplier(supplierInfo.name(), supplierInfo.legalType(), supplierInfo.registrationNumber());
         updatedSupplier.setId(id);
-        repository.save(updatedSupplier);
+        return repository.save(updatedSupplier);
     }
 
     public void deleteSupplier(Long id) {
