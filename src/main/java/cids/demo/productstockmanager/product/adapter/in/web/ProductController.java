@@ -69,7 +69,7 @@ public class ProductController {
         try {
             return addProductUseCase.addProduct(productInfo.name(), productInfo.quantity(), productInfo.supplierId());
         } catch (SupplierNotFoundException ex) {
-            throw new ResponseStatusException(HttpStatus.FAILED_DEPENDENCY, ex.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());
         }
     }
 

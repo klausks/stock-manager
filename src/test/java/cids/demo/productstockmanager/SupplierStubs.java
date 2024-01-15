@@ -5,33 +5,27 @@ import cids.demo.productstockmanager.supplier.domain.Supplier;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class SupplierStubs {
-    private static AtomicLong ID_COUNTER = new AtomicLong(1L);
-
-    public static void resetIdCounter() {
-        ID_COUNTER.set(1L);
-    }
-
-    public static Supplier withNaturalPersonAsType() {
+    public static Supplier withNaturalPersonAsType(Long id) {
         var supplier = new Supplier("Test", Supplier.LegalType.NATURAL_PERSON, "123");
-        supplier.setId(ID_COUNTER.getAndIncrement());
+        supplier.setId(id);
         return supplier;
     }
 
-    public static Supplier withLegalEntityAsType() {
+    public static Supplier withLegalEntityAsType(Long id) {
         var supplier = new Supplier("Test supplier", Supplier.LegalType.LEGAL_ENTITY, "123456");
-        supplier.setId(ID_COUNTER.getAndIncrement());
+        supplier.setId(id);
         return supplier;
     }
 
-    public static Supplier withNullName() {
+    public static Supplier withNullName(Long id) {
         var supplier = new Supplier(null, Supplier.LegalType.LEGAL_ENTITY, "123456");
-        supplier.setId(ID_COUNTER.getAndIncrement());
+        supplier.setId(id);
         return supplier;
     }
 
-    public static Supplier withNullRegistrationNumber() {
+    public static Supplier withNullRegistrationNumber(Long id) {
         var supplier = new Supplier(null, Supplier.LegalType.LEGAL_ENTITY, "123456");
-        supplier.setId(ID_COUNTER.getAndIncrement());
+        supplier.setId(id);
         return supplier;
     }
 

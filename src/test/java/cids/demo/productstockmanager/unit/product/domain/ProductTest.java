@@ -10,8 +10,8 @@ public class ProductTest {
 
     @Test
     public void givenInvalidParameters_whenConstructProduct_shouldThrowIllegalArgumentException() {
-        assertThrows(IllegalArgumentException.class, ProductStubs::withExceedingMaxQuantity);
-        assertThrows(IllegalArgumentException.class, ProductStubs::withNegativeQuantity);
-        assertThrows(IllegalArgumentException.class, ProductStubs::withNullName);
+        assertThrows(IllegalArgumentException.class, () -> ProductStubs.withExceedingMaxQuantity(1L, 1L));
+        assertThrows(IllegalArgumentException.class, () -> ProductStubs.withNegativeQuantity(1L, 1L));
+        assertThrows(IllegalArgumentException.class, () -> ProductStubs.withNullName(1L, 1L));
     }
 }

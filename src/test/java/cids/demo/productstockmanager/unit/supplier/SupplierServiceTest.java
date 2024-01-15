@@ -21,14 +21,9 @@ public class SupplierServiceTest {
     private final SupplierRepository mockSupplierRepository = Mockito.mock(SupplierRepository.class);
     private final SupplierService supplierService = new SupplierService(mockSupplierRepository);
 
-    @BeforeEach
-    void resetIdCounter() {
-        SupplierStubs.resetIdCounter();
-    }
-
     @Test
     void givenValidSupplierInfo_whenAddSupplier_shouldSaveAndReturn() {
-        var supplier = SupplierStubs.withLegalEntityAsType();
+        var supplier = SupplierStubs.withLegalEntityAsType(1L);
         Mockito.when(mockSupplierRepository.save(any(Supplier.class))).thenReturn(supplier);
         var addedSupplier = supplierService.addSupplier(supplier.getName(), supplier.getLegalType(), supplier.getRegistrationNumber());
         assertEquals(supplier, addedSupplier);
@@ -46,10 +41,10 @@ public class SupplierServiceTest {
 
     @Test
     void givenValidSupplierInfo_whenUpdateSupplier_shouldUpdateAndReturn() throws SupplierNotFoundException {
-        var existingSupplier = SupplierStubs.withLegalEntityAsType();
+        var existingSupplier = SupplierStubs.withLegalEntityAsType(1L);
         Mockito.when(mockSupplierRepository.findById(anyLong())).thenReturn(Optional.of(existingSupplier));
 
-        var updatedSupplier = SupplierStubs.withNaturalPersonAsType();
+        var updatedSupplier = SupplierStubs.withNaturalPersonAsType(1L);
         updatedSupplier.setId(existingSupplier.getId());
         Mockito.when(mockSupplierRepository.save(any(Supplier.class))).thenReturn(updatedSupplier);
         var updateInfo = new SupplierDto(updatedSupplier.getName(), updatedSupplier.getLegalType(), updatedSupplier.getRegistrationNumber());

@@ -3,45 +3,39 @@ package cids.demo.productstockmanager;
 import cids.demo.productstockmanager.product.domain.Product;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class ProductStubs {
-    private static AtomicLong ID_COUNTER = new AtomicLong(1L);
-
-    public static void resetIdCounter() {
-        ID_COUNTER.set(1L);
-    }
-    public static Product withNaturalPersonAsSupplier() {
-        Product product = new Product("test", 10, SupplierStubs.withNaturalPersonAsType());
-        product.setId(ID_COUNTER.getAndIncrement());
+    public static Product withNaturalPersonAsSupplier(Long id, Long supplierId) {
+        Product product = new Product("test", 10, SupplierStubs.withNaturalPersonAsType(supplierId));
+        product.setId(id);
         return product;
     }
 
-    public static Product withLegalEntityAsSupplier() {
-        Product product = new Product("test", 10, SupplierStubs.withNaturalPersonAsType());
-        product.setId(ID_COUNTER.getAndIncrement());
+    public static Product withLegalEntityAsSupplier(Long id, Long supplierId) {
+        Product product = new Product("test", 10, SupplierStubs.withNaturalPersonAsType(supplierId));
+        product.setId(id);
         return product;
     }
 
-    public static Product withExceedingMaxQuantity() {
-        Product product = new Product("test", 10000, SupplierStubs.withLegalEntityAsType());
-        product.setId(ID_COUNTER.getAndIncrement());
+    public static Product withExceedingMaxQuantity(Long id, Long supplierId) {
+        Product product = new Product("test", 10000, SupplierStubs.withLegalEntityAsType(supplierId));
+        product.setId(id);
         return product;
     }
 
-    public static Product withNegativeQuantity() {
-        Product product = new Product("test", -1, SupplierStubs.withLegalEntityAsType());
-        product.setId(ID_COUNTER.getAndIncrement());
+    public static Product withNegativeQuantity(Long id, Long supplierId) {
+        Product product = new Product("test", -1, SupplierStubs.withLegalEntityAsType(supplierId));
+        product.setId(id);
         return product;
     }
 
-    public static Product withNullName() {
-        Product product = new Product(null, 0, SupplierStubs.withLegalEntityAsType());
-        product.setId(ID_COUNTER.getAndIncrement());
+    public static Product withNullName(Long id, Long supplierId) {
+        Product product = new Product(null, 0, SupplierStubs.withLegalEntityAsType(supplierId));
+        product.setId(id);
         return product;
     }
 
-    public static List<Product> twoProducts() {
-        return List.of(withNaturalPersonAsSupplier(), withLegalEntityAsSupplier());
+    public static List<Product> twoProducts(Long id1, Long supplierId1, Long id2, Long supplierId2) {
+        return List.of(withNaturalPersonAsSupplier(id1, supplierId1), withLegalEntityAsSupplier(id2, supplierId2));
     }
 }
