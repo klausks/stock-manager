@@ -57,7 +57,7 @@ public class SupplierController {
         deleteSupplierUseCase.deleteSupplier(id);
     }
 
-    @PutMapping
+    @PostMapping
     public Supplier addSupplier(@Valid @RequestBody SupplierDto supplierInfo) {
         return addSupplierUseCase.addSupplier(supplierInfo.name(), supplierInfo.legalType(), supplierInfo.registrationNumber());
     }
@@ -67,7 +67,7 @@ public class SupplierController {
         try {
             updateSupplierUseCase.updateSupplier(id, supplierInfo);
         } catch (SupplierNotFoundException ex) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ex.getMessage(), ex);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage(), ex);
         }
 
     }

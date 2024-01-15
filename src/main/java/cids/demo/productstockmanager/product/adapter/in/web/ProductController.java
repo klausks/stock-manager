@@ -3,7 +3,6 @@ package cids.demo.productstockmanager.product.adapter.in.web;
 import cids.demo.productstockmanager.product.application.port.in.*;
 import cids.demo.productstockmanager.product.application.service.ProductNotFoundException;
 import cids.demo.productstockmanager.product.domain.Product;
-import cids.demo.productstockmanager.product.application.service.ProductService;
 import cids.demo.productstockmanager.product.application.SupplierNotFoundException;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -30,7 +29,7 @@ public class ProductController {
     private final UpdateProductUseCase updateProductUseCase;
     private final DeleteProductUseCase deleteProductUseCase;
 
-    public ProductController(ProductService addProductUseCase,
+    public ProductController(AddProductUseCase addProductUseCase,
                              GetProductsUseCase getProductsUseCase,
                              UpdateProductUseCase updateProductUseCase,
                              DeleteProductUseCase deleteProductUseCase
@@ -65,7 +64,7 @@ public class ProductController {
         deleteProductUseCase.deleteProduct(id);
     }
 
-    @PutMapping
+    @PostMapping
     public Product addProduct(@Valid @RequestBody ProductDto productInfo) {
         try {
             return addProductUseCase.addProduct(productInfo.name(), productInfo.quantity(), productInfo.supplierId());
@@ -79,7 +78,7 @@ public class ProductController {
         try {
             return updateProductUseCase.updateProduct(id, productInfo);
         } catch (SupplierNotFoundException | ProductNotFoundException ex) {
-            throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, ex.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());
         }
     }
 
