@@ -140,7 +140,7 @@ class SupplierControllerTest {
 
     // POST (Add) tests
     @Test
-    void givenValidSupplierInfo_whenCallAddSupplier_shouldAddAndReturnSupplierInfo() throws Exception {
+    void givenValidSupplierInfo_whenCallAddSupplier_shouldAddAndReturnEmptyBody() throws Exception {
         var supplierId = 1L;
         var addSupplierJson = objectMapper.writeValueAsString(SupplierDtoStubs.withLegalEntityAsType());
         var newSupplier = SupplierStubs.withLegalEntityAsType(supplierId);
@@ -150,9 +150,8 @@ class SupplierControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(addSupplierJson))
                .andDo(print())
-               .andExpect(status().isOk())
-               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-               .andExpect(content().json(objectMapper.writeValueAsString(newSupplier)));
+               .andExpect(status().isCreated())
+               .andExpect(content().string(""));
     }
 
     @Test
