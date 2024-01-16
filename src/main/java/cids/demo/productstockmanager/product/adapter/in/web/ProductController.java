@@ -10,12 +10,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -65,18 +67,19 @@ public class ProductController {
     }
 
     @PostMapping
-    public Product addProduct(@Valid @RequestBody ProductDto productInfo) {
+    public ResponseEntity<Product> addProduct(@Valid @RequestBody ProductDto productInfo) {
         try {
-            return addProductUseCase.addProduct(productInfo.name(), productInfo.quantity(), productInfo.supplierId());
+            Long newProductId = addProductUseCase.addProduct(productInfo.name(), productInfo.quantity(), productInfo.supplierId()).getId();
+            return ResponseEntity.created(URI.create("/products/" + newProductId)).build();
         } catch (SupplierNotFoundException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());
         }
     }
 
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDto productInfo) {
+    public void updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDto productInfo) {
         try {
-            return updateProductUseCase.updateProduct(id, productInfo);
+            updateProductUseCase.updateProduct(id, productInfo);
         } catch (SupplierNotFoundException | ProductNotFoundException ex) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());
         }

@@ -105,7 +105,7 @@ class ProductControllerTest {
 
     // PUT (Update) tests
     @Test
-    void givenProductExists_whenCallUpdateProduct_shouldReturnOkStatusAndUpdatedProductInfo() throws Exception {
+    void givenProductExists_whenCallUpdateProduct_shouldReturnOkStatusAndEmptyBody() throws Exception {
         var existingProduct = ProductStubs.withLegalEntityAsSupplier(1L, 1L);
         var updatedProduct = ProductStubs.withNaturalPersonAsSupplier(1L, 2L);
         updatedProduct.setId(existingProduct.getId());
@@ -120,8 +120,7 @@ class ProductControllerTest {
                         .content(updateProductJson))
                .andDo(print())
                .andExpect(status().isOk())
-               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-               .andExpect(content().json(objectMapper.writeValueAsString(updatedProduct)));
+               .andExpect(content().string(""));
     }
 
     @Test
@@ -151,9 +150,9 @@ class ProductControllerTest {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(addProductJson))
                .andDo(print())
-               .andExpect(status().isOk())
-               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-               .andExpect(content().json(objectMapper.writeValueAsString(newProduct)));
+               .andExpect(status().isCreated())
+               .andExpect(header().string("Location", "/products/1"))
+               .andExpect(content().string(""));
     }
 
     @Test
