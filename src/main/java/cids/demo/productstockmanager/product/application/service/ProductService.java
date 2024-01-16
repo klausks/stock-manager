@@ -42,25 +42,32 @@ public class ProductService implements GetProductsUseCase, AddProductUseCase, Up
             LOGGER.error(err);
             return new SupplierNotFoundException(err);
         });
-        return productRepository.save(new Product(name, quantity, supplier));
+        var createdProduct = productRepository.save(new Product(name, quantity, supplier));
+        LOGGER.info("Created {}", createdProduct);
+        return createdProduct;
     }
 
     public Product updateProduct(Long id, ProductDto productInfo) throws SupplierNotFoundException, ProductNotFoundException {
         boolean productExists = getProduct(id).isPresent();
         if (!productExists) {
-            throw new ProductNotFoundException(String.format("Cannot update product with ID %d because it does not exist.", id));
+            var err = String.format("Cannot update product with ID %d because it does not exist.", id);
+            LOGGER.error(err);
+            throw new ProductNotFoundException(err);
         }
         Supplier supplier = supplierService.getSupplier(productInfo.supplierId()).orElseThrow(() -> {
             String err = String.format("Cannot update product with supplerId '%d' because no supplier with this ID was found.", productInfo.supplierId());
             LOGGER.error(err);
             return new SupplierNotFoundException(err);
         });
-        Product updatedProduct = new Product(productInfo.name(), productInfo.quantity(), supplier);
+        var updatedProduct = new Product(productInfo.name(), productInfo.quantity(), supplier);
         updatedProduct.setId(id);
-        return productRepository.save(updatedProduct);
+        var resultProduct = productRepository.save(updatedProduct);
+        LOGGER.info("Updated {}", resultProduct);
+        return resultProduct;
     }
 
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
+        LOGGER.info("Deleted product with ID {}", id);
     }
 }
