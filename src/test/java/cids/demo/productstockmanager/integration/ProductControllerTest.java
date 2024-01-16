@@ -103,7 +103,7 @@ class ProductControllerTest {
                .andExpect(content().json(expectedJsonResponseString));
     }
 
-    // Update tests
+    // PUT (Update) tests
     @Test
     void givenProductExists_whenCallUpdateProduct_shouldReturnOkStatusAndUpdatedProductInfo() throws Exception {
         var existingProduct = ProductStubs.withLegalEntityAsSupplier(1L, 1L);
@@ -126,21 +126,19 @@ class ProductControllerTest {
 
     @Test
     void givenProductDoesNotExist_whenCallUpdateProduct_shouldReturnNotFoundStatus() throws Exception {
-        var existingProduct = ProductStubs.withLegalEntityAsSupplier(1L, 1L);
         var updateProductJson = objectMapper.writeValueAsString(ProductDtoStubs.withNaturalPersonAsSupplier(1L));
 
         when(getProductsUseCase.getProduct(anyLong())).thenReturn(Optional.empty());
         when(updateProductUseCase.updateProduct(anyLong(), any(ProductDto.class))).thenThrow(ProductNotFoundException.class);
 
-        var productId = existingProduct.getId();
-        mockMvc.perform(put("/products/{productId}", productId)
+        mockMvc.perform(put("/products/{productId}", 1L)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(updateProductJson))
                .andDo(print())
                .andExpect(status().isNotFound());
     }
 
-    // Add tests
+    // POST (Add) tests
     @Test
     void givenValidProductInfo_whenCallAddProduct_shouldAddAndReturnProductInfo() throws Exception {
         var supplierId = 1L;

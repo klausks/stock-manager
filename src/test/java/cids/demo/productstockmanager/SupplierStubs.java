@@ -2,7 +2,7 @@ package cids.demo.productstockmanager;
 
 import cids.demo.productstockmanager.supplier.domain.Supplier;
 
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.List;
 
 public class SupplierStubs {
     public static Supplier withNaturalPersonAsType(Long id) {
@@ -29,5 +29,7 @@ public class SupplierStubs {
         return supplier;
     }
 
-
+    public static List<Supplier> twoSuppliers(Long id1, Long id2) {
+        return List.of(withLegalEntityAsType(id1), withNaturalPersonAsType(id2));
+    }
 }
